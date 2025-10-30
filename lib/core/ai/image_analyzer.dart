@@ -58,24 +58,24 @@ class ImageAnalyzer {
       AppLogger.info('Extrayendo último frame del GIF');
 
       // Decodificar GIF completo
-      final gif = img.decodeGif(gifBytes);
+      final animation = img.decodeGifAnimation(gifBytes);
 
-      if (gif == null) {
+      if (animation == null) {
         AppLogger.error('No se pudo decodificar el GIF');
         return null;
       }
 
-      // Obtener los frames disponibles
-      final frames = gif.frames;
-      AppLogger.info('GIF tiene ${frames.length} frames');
+      final frames = animation.frames;
+      final frameCount = frames.length;
+      AppLogger.info('GIF tiene $frameCount frames');
 
-      if (frames.isEmpty) {
+      if (frameCount == 0) {
         AppLogger.error('GIF sin frames');
         return null;
       }
 
       // Obtener el último frame (el más reciente)
-      final lastFrame = frames.last;
+      final lastFrame = frames.last.image;
 
       AppLogger.success('Último frame extraído: ${lastFrame.width}x${lastFrame.height}');
 

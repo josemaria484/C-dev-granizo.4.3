@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+
+import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 /// Modelo que encapsula un overlay PNG con transparencia listo para el mapa.

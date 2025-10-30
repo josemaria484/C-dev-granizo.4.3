@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter_map/flutter_map.dart';
 import 'package:image/image.dart' as img;
 import 'package:latlong2/latlong.dart';
 
