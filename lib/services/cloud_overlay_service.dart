@@ -1,19 +1,18 @@
 import 'dart:typed_data';
 
-import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/flutter_map.dart'; // LatLngBounds
 import 'package:image/image.dart' as img;
 import 'package:latlong2/latlong.dart';
 
 import '../core/ai/color_mapper.dart';
 import '../data/models/cloud_overlay.dart';
-import '../utils/constants.dart';
 import '../utils/logger.dart';
 
 /// Servicio encargado de generar un PNG con transparencia a partir del radar DACC.
 class CloudOverlayService {
   static final LatLngBounds _defaultBounds = LatLngBounds(
-    AppConstants.overlaySouthWest,
-    AppConstants.overlayNorthEast,
+    const LatLng(-35.5, -69.5), // southWest
+    const LatLng(-33.5, -67.5), // northEast
   );
 
   static LatLngBounds get defaultBounds => _defaultBounds;
