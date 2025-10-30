@@ -49,9 +49,9 @@ class NucleusDetector {
 
         // Obtener píxel y estimar dBZ
         final pixel = radarImage.getPixel(x, y);
-        final r = pixel.r.toInt();
-        final g = pixel.g.toInt();
-        final b = pixel.b.toInt();
+        final r = img.getRed(pixel);
+        final g = img.getGreen(pixel);
+        final b = img.getBlue(pixel);
         final dbz = ColorMapper.estimateDBZ(r, g, b);
 
         // Si supera el umbral, iniciar clustering
@@ -108,9 +108,9 @@ class NucleusDetector {
 
       // Obtener dBZ del píxel
       final pixel = image.getPixel(x, y);
-      final r = pixel.r.toInt();
-      final g = pixel.g.toInt();
-      final b = pixel.b.toInt();
+      final r = img.getRed(pixel);
+      final g = img.getGreen(pixel);
+      final b = img.getBlue(pixel);
       final dbz = ColorMapper.estimateDBZ(r, g, b);
 
       // Si no cumple umbral, ignorar

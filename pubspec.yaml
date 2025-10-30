@@ -23,7 +23,7 @@ dependencies:
   path_provider: ^2.1.1
 
   # Procesamiento de imágenes (IA local)
-  image: ^4.1.3
+  image: 3.3.0
 
   # Permisos
   permission_handler: ^11.3.1

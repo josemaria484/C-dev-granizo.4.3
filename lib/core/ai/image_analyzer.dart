@@ -65,17 +65,17 @@ class ImageAnalyzer {
         return null;
       }
 
-      // Obtener número total de frames
-      final frameCount = gif.numFrames;
-      AppLogger.info('GIF tiene $frameCount frames');
+      // Obtener los frames disponibles
+      final frames = gif.frames;
+      AppLogger.info('GIF tiene ${frames.length} frames');
 
-      if (frameCount == 0) {
+      if (frames.isEmpty) {
         AppLogger.error('GIF sin frames');
         return null;
       }
 
       // Obtener el último frame (el más reciente)
-      final lastFrame = gif.frames[frameCount - 1];
+      final lastFrame = frames.last;
 
       AppLogger.success('Último frame extraído: ${lastFrame.width}x${lastFrame.height}');
 
