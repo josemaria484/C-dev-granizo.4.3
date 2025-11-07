@@ -10,10 +10,12 @@ import 'core/location/location_service.dart';
 import 'core/location/permission_handler.dart';
 import 'core/dacc/dacc_downloader.dart';
 import 'core/ai/image_analyzer.dart';
+import 'data/models/cloud_overlay.dart';
 import 'data/models/radar_data.dart';
 // Nota: no dependemos del tipo exacto del núcleo real; operamos en runtime.
 
 import 'services/weather_alert_service.dart';
+import 'services/cloud_overlay_service.dart';
 import 'services/synthetic_radar_service.dart' as syn;
 
 void main() {
@@ -52,6 +54,7 @@ class _MapScreenState extends State<MapScreen> {
 
   RadarData? _currentRadarData;
   List<dynamic> _detectedNuclei = []; // núcleos reales, tipo libre
+  CloudOverlay? _cloudOverlay;
 
   LatLng? _userLocation;
   Timer? _alertTimer;
@@ -80,10 +83,18 @@ class _MapScreenState extends State<MapScreen> {
           minDbz: 40,
           minPixels: 1000,
         );
+        CloudOverlay? overlay;
+        if (analysis.processedImage != null) {
+          overlay = await CloudOverlayService.buildOverlay(
+            analysis.processedImage!,
+            minDbz: 25,
+          );
+        }
         if (!mounted) return;
         setState(() {
           _currentRadarData = radarData;
           _detectedNuclei = analysis.nuclei; // lista de núcleos del modelo real
+          _cloudOverlay = overlay;
         });
         await _checkWeatherAlerts();
       }
@@ -205,10 +216,19 @@ class _MapScreenState extends State<MapScreen> {
         minPixels: 1000,
       );
 
+      CloudOverlay? overlay;
+      if (analysis.processedImage != null) {
+        overlay = await CloudOverlayService.buildOverlay(
+          analysis.processedImage!,
+          minDbz: 25,
+        );
+      }
+
       if (!mounted) return;
       setState(() {
         _currentRadarData = radarData;
         _detectedNuclei = analysis.nuclei;
+        _cloudOverlay = overlay;
       });
 
       final levels = analysis.nucleiByLevel;
@@ -313,7 +333,15 @@ ${AppConstants.appName} v${AppConstants.appVersion}
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: AppConstants.packageName,
               ),
-              // Producción: sin overlay de nubes si no hay tormenta real.
+              if (_cloudOverlay?.hasPixels == true)
+                OverlayImageLayer(
+                  overlayImages: [
+                    OverlayImage(
+                      bounds: _cloudOverlay!.bounds,
+                      imageProvider: MemoryImage(_cloudOverlay!.imageBytes),
+                    ),
+                  ],
+                ),
             ],
           ),
 

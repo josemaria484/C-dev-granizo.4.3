@@ -17,6 +17,10 @@ class AppConstants {
   static const LatLng southWest = LatLng(-36.0, -70.0);
   static const LatLng northEast = LatLng(-33.0, -66.5);
 
+  // Bounds de la imagen completa utilizada para el overlay sintético
+  static const LatLng overlaySouthWest = LatLng(-37.5, -71.0);
+  static const LatLng overlayNorthEast = LatLng(-31.0, -66.0);
+
   // URLs del DACC - URL REAL CONFIRMADA
   static const String daccBaseUrl = 'https://www2.contingencias.mendoza.gov.ar/radar';
   static const String daccLatestGif = '$daccBaseUrl/latest.gif';  // ← URL CORRECTA
